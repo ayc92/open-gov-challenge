@@ -14,9 +14,9 @@ def parse(file_name):
     # getcontext().prec = 2
     # first upload the file, write it out to disk,
     excel_file = request.files['file_name']
-    excel_file.save('/temp.xls')
+    excel_file.save('/tmp/temp.xls')
     # then open with xlrd
-    excel_book = xlrd.open_workbook('/temp.xls')
+    excel_book = xlrd.open_workbook('/tmp/temp.xls')
     excel_sheet = excel_book.sheet_by_index(0)
     output_hash = { 'success': 'false',
                     'excel_rows_parsed': [],
