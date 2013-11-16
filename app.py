@@ -13,8 +13,10 @@ def parse(file_name):
     # amount should only be two decimal places
     # getcontext().prec = 2
     # first upload the file, write it out to disk,
+    print 'before save'
     excel_file = request.files['file_name']
     excel_file.save('/tmp/temp.xls')
+    print 'after save'
     # then open with xlrd
     excel_book = xlrd.open_workbook('/tmp/temp.xls')
     excel_sheet = excel_book.sheet_by_index(0)
