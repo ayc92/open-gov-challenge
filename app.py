@@ -8,10 +8,10 @@ app = Flask(__name__)
 # api = Api(app)
 
 # class DataParser(Resource):
-@app.route('/scrub/<file_name>', methods = ['POST'])
-def parse(file_name):
+@app.route('/scrub/<file>', methods = ['POST'])
+def parse(file):
     # first upload the file, write it out to disk
-    excel_file = request.files['file_name']
+    excel_file = request.files[file]
     excel_file.save('/tmp/temp.xls')
     # then open with xlrd
     excel_book = xlrd.open_workbook('/tmp/temp.xls')
