@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 # class DataParser(Resource):
 @app.route('/scrub/<file>', methods = ['POST'])
-def parse(file):
+def file(file):
     # first upload the file, write it out to disk
     excel_file = request.files[file]
     excel_file.save('/tmp/temp.xls')
