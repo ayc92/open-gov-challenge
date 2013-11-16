@@ -44,7 +44,7 @@ def parse(file_name):
             did = int(row[fields['Department ID']])
             dname = row[fields['Department Name']]
             oname = row[fields['Object Name']]
-            amount = Decimal(row[fields['Amount']])
+            amount = row[fields['Amount']]
             if year in output_hash['aggregations']:
                 if amount >= 0:
                     if fid in output_hash['aggregations'][year]['revenues']['funds']:
@@ -79,6 +79,7 @@ def parse(file_name):
                 output_hash['name_lookup']['departments'][did] = dname
     print 'after loop'
     output_hash['success'] = True
+    json_resp = jsonify(**{})
     try:
         json_resp = jsonify(**output_hash)
     except Exception as e:
