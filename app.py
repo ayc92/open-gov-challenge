@@ -79,7 +79,10 @@ def parse(file_name):
                 output_hash['name_lookup']['departments'][did] = dname
     print 'after loop'
     output_hash['success'] = True
-    json_resp = jsonify(**output_hash)
+    try:
+        json_resp = jsonify(**output_hash)
+    except Exception as e:
+        print e
     print 'after jsonify'
     return json_resp
 
