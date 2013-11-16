@@ -49,37 +49,37 @@ def file(file):
                     oname = row[fields['Object Name']]
                     amount = float(row[fields['Amount']])
                     if year in output_hash['aggregations']:
-                        if amount >= 0:
-                            if fid in output_hash['aggregations'][year]['revenues']['funds']:
-                                output_hash['aggregations'][year]['revenues']['funds'][fid] += amount
+                        if amount > 0:
+                            if fname in output_hash['aggregations'][year]['revenues']['funds']:
+                                output_hash['aggregations'][year]['revenues']['funds'][fname] += amount
                             else:
-                                output_hash['aggregations'][year]['revenues']['funds'][fid] = amount
-                            if did in output_hash['aggregations'][year]['revenues']['departments']:
-                                output_hash['aggregations'][year]['revenues']['departments'][did] += amount
+                                output_hash['aggregations'][year]['revenues']['funds'][fname] = amount
+                            if dname in output_hash['aggregations'][year]['revenues']['departments']:
+                                output_hash['aggregations'][year]['revenues']['departments'][dname] += amount
                             else:
-                                output_hash['aggregations'][year]['revenues']['departments'][did] = amount
+                                output_hash['aggregations'][year]['revenues']['departments'][dname] = amount
                         else:
-                            if fid in output_hash['aggregations'][year]['expenses']['funds']:
-                                output_hash['aggregations'][year]['expenses']['funds'][fid] += amount
+                            if fname in output_hash['aggregations'][year]['expenses']['funds']:
+                                output_hash['aggregations'][year]['expenses']['funds'][fname] += amount
                             else:
-                                output_hash['aggregations'][year]['expenses']['funds'][fid] = amount
-                            if did in output_hash['aggregations'][year]['expenses']['departments']:
-                                output_hash['aggregations'][year]['expenses']['departments'][did] += amount
+                                output_hash['aggregations'][year]['expenses']['funds'][fname] = amount
+                            if dname in output_hash['aggregations'][year]['expenses']['departments']:
+                                output_hash['aggregations'][year]['expenses']['departments'][dname] += amount
                             else:
-                                output_hash['aggregations'][year]['expenses']['departments'][did] = amount
+                                output_hash['aggregations'][year]['expenses']['departments'][dname] = amount
                     else:
-                        if amount >= 0:
+                        if amount > 0:
                             output_hash['aggregations'][year] = \
-                                {'revenues': {'funds': {fid: amount}, 'departments': {did: amount}},
+                                {'revenues': {'funds': {fname: amount}, 'departments': {dname: amount}},
                                  'expenses': {'funds': {}, 'departments': {}}}
                         else:
                             output_hash['aggregations'][year] = \
                                 {'revenues': {'funds': {}, 'departments': {}},
-                                 'expenses': {'funds': {fid: amount}, 'departments': {did: amount}}}
+                                 'expenses': {'funds': {fname: amount}, 'departments': {dname: amount}}}
                     if fid not in output_hash['name_lookup']['funds']:
-                        output_hash['name_lookup']['funds'][fid] = fname
+                        output_hash['name_lookup']['funds'][fname] = fname
                     if did not in output_hash['name_lookup']['departments']:
-                        output_hash['name_lookup']['departments'][did] = dname
+                        output_hash['name_lookup']['departments'][dname] = dname
             row_idx += 1
     output_hash['success'] = True
     json_resp = jsonify(**output_hash)
