@@ -19,7 +19,9 @@ def parse(file_name):
     print 'after save'
     # then open with xlrd
     excel_book = xlrd.open_workbook('/tmp/temp.xls')
+    print 'after open workbook'
     excel_sheet = excel_book.sheet_by_index(0)
+    print 'after open sheet'
     output_hash = { 'success': 'false',
                     'excel_rows_parsed': [],
                     'aggregations': {},
@@ -75,8 +77,10 @@ def parse(file_name):
                 output_hash['name_lookup']['funds'][fid] = fname
             if did not in output_hash['name_lookup']['departments']:
                 output_hash['name_lookup']['departments'][did] = dname
+    print 'after loop'
     output_hash['success'] = True
     json_resp = jsonify(**output_hash)
+    print 'after jsonify'
     return json_resp
 
 # api.add_resource(DataParser, '/scrub/<string:file_name>', endpoint='parse')
