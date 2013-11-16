@@ -10,18 +10,12 @@ app = Flask(__name__)
 # class DataParser(Resource):
 @app.route('/scrub/<file_name>', methods = ['POST'])
 def parse(file_name):
-    # amount should only be two decimal places
-    # getcontext().prec = 2
-    # first upload the file, write it out to disk,
-    print 'before save'
+    # first upload the file, write it out to disk
     excel_file = request.files['file_name']
     excel_file.save('/tmp/temp.xls')
-    print 'after save'
     # then open with xlrd
     excel_book = xlrd.open_workbook('/tmp/temp.xls')
-    print 'after open workbook'
     excel_sheet = excel_book.sheet_by_index(0)
-    print 'after open sheet'
     output_hash = { 'success': 'false',
                     'excel_rows_parsed': [],
                     'aggregations': {},
@@ -85,17 +79,9 @@ def parse(file_name):
                 output_hash['name_lookup']['funds'][fid] = fname
             if did not in output_hash['name_lookup']['departments']:
                 output_hash['name_lookup']['departments'][did] = dname
-    print 'after loop'
     output_hash['success'] = True
-    json_resp = jsonify(**{})
-    try:
-        json_resp = jsonify(**output_hash)
-    except Exception as e:
-        print e
-    print 'after jsonify'
+    json_resp = jsonify(**output_hash)
     return json_resp
-
-# api.add_resource(DataParser, '/scrub/<string:file_name>', endpoint='parse')
 
 if __name__ == '__main__':
     app.debug = True
