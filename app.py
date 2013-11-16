@@ -40,8 +40,16 @@ def parse(file_name):
             year = int(row[fields['Year']])
             month = row[fields['Month']]
             fid = int(row[fields['Fund ID']])
+            if fid < 10:
+                fid = '0' + str(fid)
+            else:
+                fid = str(fid)
             fname = row[fields['Fund Name']]
             did = int(row[fields['Department ID']])
+            if did < 10:
+                did = '0' + str(did)
+            else:
+                did = str(did)
             dname = row[fields['Department Name']]
             oname = row[fields['Object Name']]
             amount = row[fields['Amount']]
@@ -61,9 +69,9 @@ def parse(file_name):
                     else:
                         output_hash['aggregations'][year]['expenses']['funds'][fid] = amount
                     if did in output_hash['aggregations'][year]['expenses']['departments']:
-                        output_hash['aggregations'][year]['expenses']['funds'][did] += amount
+                        output_hash['aggregations'][year]['expenses']['departments'][did] += amount
                     else:
-                        output_hash['aggregations'][year]['revenues']['funds'][did] = amount
+                        output_hash['aggregations'][year]['expenses']['departments'][did] = amount
             else:
                 if amount >= 0:
                     output_hash['aggregations'][year] = \
