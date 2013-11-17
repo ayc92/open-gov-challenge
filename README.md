@@ -1,5 +1,21 @@
 This is a Flask app that provides a HTTP endpoint ```POST http://<host>/scrub/:file```.
 
+To run this app locally, you will probably want to install virtualenv.
+First, make sure that you are in the project root (where the main <app>.py file is).
+```sh
+sudo pip install virtualenv
+```
+Then create a new Python virtualenv, and then we need to activate it.
+```sh
+virtualenv venv --distribute
+source venv/bin/activate
+```
+Usually we would need to generate a ```requirements.txt``` file, but it already exists in the repository, so we're good!
+Now that we have activated the virtualenv, we can run the Flask app via the following command.
+```sh
+python app.py
+```
+
 There are two versions, one that handles .xls input files, and another that handles .csv input files. The most up to date version (and the one that actually works correctly), is on the ```dev-csv``` branch, so from here on out, this document will refer to this version.
 
 First, the input file is obtained from the parameters hash, and it is saved in to the temporary folder ```/tmp```. Then, the file is read from disk using Python's ```csv``` module.
