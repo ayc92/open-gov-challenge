@@ -11,6 +11,7 @@ def file(file):
     # then open with csv module
     output_hash = { 'excel_rows_parsed': [],
                     'aggregations': {} }
+    # field names will be stored here, so that we do not have to hardcode indices
     fields = {}
     with open('/tmp/temp.csv', 'rU') as csvfile:
         reader = csv.reader(csvfile)
@@ -37,6 +38,7 @@ def file(file):
                     if year in output_hash['aggregations']:
                         year_hash = output_hash['aggregations'][year]
                         # any necessary initialization
+                        # if fund name or department name does not already exist in hash, add it
                         if fname not in year_hash['revenues']['funds']:
                             output_hash['aggregations'][year]['revenues']['funds'][fname] = 0.0
                         if fname not in year_hash['expenses']['funds']:
@@ -64,7 +66,7 @@ def file(file):
                                 {'revenues': {'funds': {fname: 0.0}, 'departments': {dname: 0.0}, 'total': 0.0},
                                  'expenses': {'funds': {fname: amount}, 'departments': {dname: amount}, 'total': amount}}
             row_idx += 1
-    # now we need to format the floats as fixed precision (rounded to the tenths place)
+    # now we need to format the floats as fixed precision (rounded to the hundreths place)
     for yr in output_hash['aggregations']:
         year_hash = output_hash['aggregations'][yr]
         for fun in year_hash['expenses']['funds']:
