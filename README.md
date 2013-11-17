@@ -12,8 +12,11 @@ Then create a new Python virtualenv, and then we need to activate it.
 virtualenv venv --distribute
 source venv/bin/activate
 ```
-Usually we would need to generate a ```requirements.txt``` file, but it already exists in the repository, so we're good!
-Now that we have activated the virtualenv, we can run the Flask app via the following command.
+Usually we would need to generate a ```requirements.txt``` file, but it already exists in the repository, so we're good! Now we just need to install all the modules into our virtual environments with this command:
+```sh
+pip install -r requirements.txt
+```
+Now that we have activated the virtualenv and installed the requirements, we can run the Flask app via the following command.
 ```sh
 python app.py
 ```
