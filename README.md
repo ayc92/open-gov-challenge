@@ -1,8 +1,8 @@
-This is a Flask app that provides a HTTP endpoint sh'''POST http://<host>/scrub/:file'''.
+This is a Flask app that provides a HTTP endpoint '''sh POST http://<host>/scrub/:file'''.
 
-There are two versions, one that handles .xls input files, and another that handles .csv input files. The most up to date version (and the one that actually works correctly), is on the sh'''dev-csv''' branch, so from here on out, this document will refer to this version.
+There are two versions, one that handles .xls input files, and another that handles .csv input files. The most up to date version (and the one that actually works correctly), is on the '''sh dev-csv''' branch, so from here on out, this document will refer to this version.
 
-First, the input file is obtained from the parameters hash, and it is saved in to the temporary folder /tmp. Then, the file is read from disk using Python's sh'''csv''' module.
+First, the input file is obtained from the parameters hash, and it is saved in to the temporary folder /tmp. Then, the file is read from disk using Python's '''sh csv''' module.
 
 Then, a csv reader instance is created to scan through the whole csv file. The first (or zeroth) row contains the fields, and these are put into a dictionary mapping each field name to its corresponding index within the row. This way, access of each field is not dependent on the order in which they appear in the csv file.
 
