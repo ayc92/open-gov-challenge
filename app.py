@@ -1,9 +1,5 @@
 from flask import Flask, request, jsonify
-# from flask.ext.restful import Resource, Api
-# import xlrd
 import csv
-# import json
-from decimal import *
 
 app = Flask(__name__)
 
@@ -39,15 +35,17 @@ def file(file):
                     oname = row[fields['Object Name']]
                     amount = float(row[fields['Amount']])
                     if year in output_hash['aggregations']:
+                        year_hash = output_hash['aggregations'][year]
                         # any necessary initialization
-                        if fname not in output_hash['aggregations'][year]['revenues']['funds']:
+                        if fname not in year_hash['revenues']['funds']:
                             output_hash['aggregations'][year]['revenues']['funds'][fname] = 0.0
-                        if fname not in output_hash['aggregations'][year]['expenses']['funds']:
+                        if fname not in year_hash['expenses']['funds']:
                             output_hash['aggregations'][year]['expenses']['funds'][fname] = 0.0
-                        if dname not in output_hash['aggregations'][year]['revenues']['departments']:
+                        if dname not in year_hash['revenues']['departments']:
                             output_hash['aggregations'][year]['revenues']['departments'][dname] = 0.0
-                        if dname not in output_hash['aggregations'][year]['expenses']['departments']:
+                        if dname not in year_hash['expenses']['departments']:
                             output_hash['aggregations'][year]['expenses']['departments'][dname] = 0.0
+                        # add amounts
                         if amount > 0.0:
                             output_hash['aggregations'][year]['revenues']['funds'][fname] += amount
                             output_hash['aggregations'][year]['revenues']['departments'][dname] += amount
@@ -68,24 +66,25 @@ def file(file):
             row_idx += 1
     # now we need to format the floats as fixed precision (rounded to the tenths place)
     for yr in output_hash['aggregations']:
-        for fun in output_hash['aggregations'][yr]['expenses']['funds']:
+        year_hash = output_hash['aggregations'][yr]
+        for fun in year_hash['expenses']['funds']:
             output_hash['aggregations'][yr]['expenses']['funds'][fun] = \
-                float('%.2f' % round(output_hash['aggregations'][yr]['expenses']['funds'][fun], 2))
-        for fun in output_hash['aggregations'][yr]['revenues']['funds']:
+                float('%.2f' % round(year_hash['expenses']['funds'][fun], 2))
+        for fun in year_hash['revenues']['funds']:
             output_hash['aggregations'][yr]['revenues']['funds'][fun] = \
-                float('%.2f' % round(output_hash['aggregations'][yr]['revenues']['funds'][fun], 2))
-        for dep in output_hash['aggregations'][yr]['expenses']['departments']:
+                float('%.2f' % round(year_hash['revenues']['funds'][fun], 2))
+        for dep in year_hash['expenses']['departments']:
             output_hash['aggregations'][yr]['expenses']['departments'][dep] = \
-                float('%.2f' % round(output_hash['aggregations'][yr]['expenses']['departments'][dep], 2))
-        for dep in output_hash['aggregations'][yr]['revenues']['departments']:
+                float('%.2f' % round(year_hash['expenses']['departments'][dep], 2))
+        for dep in year_hash['revenues']['departments']:
             output_hash['aggregations'][yr]['revenues']['departments'][dep] = \
-                float('%.2f' % round(output_hash['aggregations'][yr]['revenues']['departments'][dep], 2))
+                float('%.2f' % round(year_hash['revenues']['departments'][dep], 2))
         output_hash['aggregations'][yr]['expenses']['total'] = \
-            float('%.2f' % round(output_hash['aggregations'][yr]['expenses']['total'], 2))
+            float('%.2f' % round(year_hash['expenses']['total'], 2))
         output_hash['aggregations'][yr]['revenues']['total'] = \
-            float('%.2f' % round(output_hash['aggregations'][yr]['revenues']['total'], 2))
-    json_resp = jsonify(**output_hash)
-    return json_resp
+            float('%.2f' % round(year_hash['revenues']['total'], 2))
+    # time to jsonify and send the repsonse!
+    return jsonify(**output_hash)
 
 if __name__ == '__main__':
     app.debug = True
