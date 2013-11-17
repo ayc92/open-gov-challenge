@@ -16,7 +16,7 @@ Now that we have activated the virtualenv, we can run the Flask app via the foll
 python app.py
 ```
 
-There are two versions, one that handles .xls input files, and another that handles .csv input files. The most up to date version (and the one that actually works correctly), is on the ```dev-csv``` branch, so from here on out, this document will refer to this version.
+There are two versions, one that handles .xls input files, and another that handles .csv input files. The most up to date version (and the one that actually works correctly), is on the csv version, which is on the ```master``` branch, so from here on out, this document will refer to this version.
 
 First, the input file is obtained from the parameters hash, and it is saved in to the temporary folder ```/tmp```. Then, the file is read from disk using Python's ```csv``` module.
 
