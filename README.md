@@ -1,7 +1,7 @@
 This is a Flask app that provides a HTTP endpoint ```POST http://<host>/scrub/:file```.
 
 To run this app locally, you will probably want to install virtualenv.
-First, make sure that you are in the project root (where the main <app>.py file is).
+First, make sure that you are in the project root (where the main app.py file is).
 Then run:
 ```sh
 sudo pip install virtualenv
